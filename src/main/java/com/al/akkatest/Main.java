@@ -11,5 +11,6 @@ public class Main {
     public static void main(String[] args) {
         BasicConfigurator.configure();
         logger.info("test log");
+        akka.Main.main(new String[] { HelloWorld.class.getName() });
     }
 }
