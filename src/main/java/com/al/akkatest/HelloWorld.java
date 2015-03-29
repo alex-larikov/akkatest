@@ -17,16 +17,26 @@ public class HelloWorld extends UntypedActor {
         // tell it to perform the greeting
         logger.info("sending message GREET");
         greeter.tell(Greeter.Msg.GREET, getSelf());
+
+        final ActorRef logParser = getContext().actorOf(Props.create(LogParser.class), "logparser");
+        logParser.tell(new Log("this is a piece of log"), getSelf());
     }
 
     @Override
     public void onReceive(Object msg) {
         logger.info("received some message", msg);
-        if (msg == Greeter.Msg.DONE) {
+        /*if (msg == Greeter.Msg.DONE) {
             logger.info("message is DONE");
             // when the greeter is done, stop this actor and with it the application
+            //getContext().stop(getSelf());
+            //getContext().getChild("logparser").
+        } else */
+        if (msg == LogParser.DONE_MSG) {
+            logger.info("Received {} from {}", msg, sender());
             getContext().stop(getSelf());
-        } else
+        } else {
+            logger.warn("Received unknown message {}", msg);
             unhandled(msg);
+        }
     }
 }
