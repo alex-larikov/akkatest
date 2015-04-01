@@ -19,7 +19,7 @@ public class HelloWorld extends UntypedActor {
         greeter.tell(Greeter.Msg.GREET, getSelf());
 
         final ActorRef logParser = getContext().actorOf(Props.create(LogParser.class), "logparser");
-        logParser.tell(new Log("this is a piece of log"), getSelf());
+        logParser.tell(new Log("this is a piece of log\nand second piece too"), getSelf());
     }
 
     @Override
